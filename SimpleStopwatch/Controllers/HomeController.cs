@@ -13,31 +13,26 @@ namespace SimpleStopwatch.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(string? time)
-        {
-           if(time != null)
-            {                
-                ViewBag.Time = time;
-            }
-            
-            return View(time);
+        [HttpGet]
+        public IActionResult Index()
+        {                         
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Time(string? ms)
+        public IActionResult Index(TimeViewModel model)
         {
-            if(ms == null || ms == "")
+            if (model == null)
             {
                 RedirectToAction(nameof(Index));
             }
 
-            return View(ms);
+            TimeSpan interval = TimeSpan.FromMilliseconds(model.Milliseconds);
 
+            model.TimeToPrint = $"h={interval.Hours}, m={interval.Minutes}, s={interval.Seconds}, ms={interval.Milliseconds}";
+
+            return View(model);
         }
-
-
-
-
 
         public IActionResult Privacy()
         {

@@ -9,6 +9,8 @@ const resetBtn = document.getElementById('reset');
 const display = document.getElementById('display');
 const sentInput = document.getElementById('sentTime');
 
+
+
 startBtn.addEventListener('click', start);
 stopBtn.addEventListener('click', stop);
 resetBtn.addEventListener('click', reset);
@@ -42,20 +44,20 @@ function stop() {
     stopBtn.hidden = true;
     resetBtn.hidden = false;    
     clearInterval(timerInterval);
+    sentInput.value = elapsedTime;
 }
 
 function reset() {
-    clearInterval(timerInterval);
-    sentInput.innerText = elapsedTime;
+    clearInterval(timerInterval);    
     elapsedTime = 0;
     updateDisplay();
     resetBtn.hidden = true;
-    startBtn.hidden = false;
+    startBtn.hidden = false;       
+    
 }
 
 function displayDateTime() {
-    var date = new Date();
-
+    var date = new Date();    
     var year = date.getFullYear();
     var month = ("0" + (date.getMonth() + 1)).slice(-2);
     var day = ("0" + date.getDate()).slice(-2);

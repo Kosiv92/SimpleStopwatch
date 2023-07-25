@@ -1,19 +1,21 @@
-﻿
-@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model TimeViewModel
 
 <div class="text-center">
         
-    <h2 id="datetime"></h2>
-    <form asp-action="Time">
-        <input hidden id="sentTime"/>
-        <button id="start">Старт</button>
-        <button id="stop" hidden>Стоп</button>
-        <button id="reset" hidden type="submit">Сброс</button>
+    <h2 id="datetime"></h2>    
+        <form asp-action="Index" method="post">
+        <input asp-for=@Model.Milliseconds hidden id="sentTime" />
+        <button id="start" type="button">Старт</button>
+        <button id="stop" type="button" hidden>Стоп</button>
+        <button id="reset" type="submit" hidden>Сброс</button>
         <h2 id="display">00:00:00</h2>
-        <p>@ViewBag.Time</p>
-    </form>
+        </form>    
+    @if(Model?.TimeToPrint != null)
+    {
+        <p><u>Время выполнения</u></p>
+        <p>@Model.TimeToPrint</p>
+    }
+
     
     
 </div>
