@@ -1,10 +1,19 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 id="timer">00:00:00</h1>
-    <button id="startBtn">Старт</button>
-    <button id="pauseBtn" disabled>Пауза</button>
-    <button id="resetBtn" disabled>Сброс</button>
+        
+    <h2 id="datetime"></h2>
+    <form asp-action="Time">
+        <input hidden id="sentTime"/>
+        <button id="start">Старт</button>
+        <button id="stop" hidden>Стоп</button>
+        <button id="reset" hidden type="submit">Сброс</button>
+        <h2 id="display">00:00:00</h2>
+        <p>@ViewBag.Time</p>
+    </form>
+    
+    
 </div>

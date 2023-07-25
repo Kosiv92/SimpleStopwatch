@@ -3,49 +3,72 @@
 
 // Write your JavaScript code.
 
-let timer = document.getElementById('timer');
-let startBtn = document.getElementById('startBtn');
-let pauseBtn = document.getElementById('pauseBtn');
-let resetBtn = document.getElementById('resetBtn');
+const startBtn = document.getElementById('start');
+const stopBtn = document.getElementById('stop');
+const resetBtn = document.getElementById('reset');
+const display = document.getElementById('display');
+const sentInput = document.getElementById('sentTime');
 
-let seconds = 0;
-let minutes = 0;
-let hours = 0;
-let interval;
+startBtn.addEventListener('click', start);
+stopBtn.addEventListener('click', stop);
+resetBtn.addEventListener('click', reset);
 
-function updateTime() {
-    seconds++;
-    if (seconds === 60) {
-        minutes++;
-        seconds = 0;
-    }
-    if (minutes === 60) {
-        hours++;
-        minutes = 0;
-    }
-    timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+let startTime;
+let elapsedTime = 0;
+let timerInterval;
+
+function formatTime(milliseconds) {
+    const date = new Date(milliseconds);
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const ms = Math.floor(date.getMilliseconds() / 10).toString().padStart(2, '0');
+    return `${minutes}:${seconds}.${ms}`;
+}
+function updateDisplay() {
+    display.textContent = formatTime(elapsedTime);
 }
 
-startBtn.addEventListener('click', () => {
-    interval = setInterval(updateTime, 1000);
-    startBtn.disabled = true;
-    pauseBtn.disabled = false;
-    resetBtn.disabled = false;
-});
+function start() {
+    startBtn.hidden = true;
+    stopBtn.hidden = false;    
+    startTime = Date.now() - elapsedTime;
+    timerInterval = setInterval(() => {
+        elapsedTime = Date.now() - startTime;
+        updateDisplay();
+    }, 10);
+}
 
-pauseBtn.addEventListener('click', () => {
-    clearInterval(interval);
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
-});
+function stop() {
+    stopBtn.hidden = true;
+    resetBtn.hidden = false;    
+    clearInterval(timerInterval);
+}
 
-resetBtn.addEventListener('click', () => {
-    clearInterval(interval);
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-    timer.textContent = '00:00:00';
-    startBtn.disabled = false;
-    pauseBtn.disabled = true;
-    resetBtn.disabled = true;
-});
+function reset() {
+    clearInterval(timerInterval);
+    sentInput.innerText = elapsedTime;
+    elapsedTime = 0;
+    updateDisplay();
+    resetBtn.hidden = true;
+    startBtn.hidden = false;
+}
+
+function displayDateTime() {
+    var date = new Date();
+
+    var year = date.getFullYear();
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+    var day = ("0" + date.getDate()).slice(-2);
+
+    var hours = ("0" + date.getHours()).slice(-2);
+    var minutes = ("0" + date.getMinutes()).slice(-2);
+    var seconds = ("0" + date.getSeconds()).slice(-2);
+
+    var dateTime = day + "." + month + "." + year + " " + hours + ":" + minutes + ":" + seconds;
+
+    document.getElementById("datetime").innerHTML = dateTime;
+}
+
+displayDateTime();
+
+setInterval(displayDateTime, 1000);

@@ -13,10 +13,31 @@ namespace SimpleStopwatch.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? time)
         {
-            return View();
+           if(time != null)
+            {                
+                ViewBag.Time = time;
+            }
+            
+            return View(time);
         }
+
+        [HttpPost]
+        public IActionResult Time(string? ms)
+        {
+            if(ms == null || ms == "")
+            {
+                RedirectToAction(nameof(Index));
+            }
+
+            return View(ms);
+
+        }
+
+
+
+
 
         public IActionResult Privacy()
         {
