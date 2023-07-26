@@ -34,15 +34,15 @@ namespace SimpleStopwatch.Controllers
 
             if (interval.Minutes != 0)
             {
-                AddTimeGradation(stringBuilder, interval.Minutes, "минута", "минуты", "минут");
+                AddTimeGradation(stringBuilder, interval.Minutes, "минут");
             }
             if (interval.Seconds != 0)
             {
-                AddTimeGradation(stringBuilder, interval.Seconds, "секунда", "секунды", "секунд");
+                AddTimeGradation(stringBuilder, interval.Seconds, "секунд");
             }
             if (interval.Milliseconds != 0)
             {
-                AddTimeGradation(stringBuilder, interval.Milliseconds, "миллисекунда", "миллисекунды", "миллисекунд");
+                AddTimeGradation(stringBuilder, interval.Milliseconds, "миллисекунд");
             }
 
             model.TimeToPrint = stringBuilder.ToString();
@@ -50,24 +50,24 @@ namespace SimpleStopwatch.Controllers
             return View(model);
         }
 
-        private void AddTimeGradation(StringBuilder sb, int time,
-            string fstPostFix, string  secPostFix, string thrdPostFix)
+        private void AddTimeGradation(StringBuilder sb, int time, string gradation)
         {
             sb.Append(time.ToString());
             int preLastDigit = time % 10;
+            if(time>9 && time < 21) sb.Append($" {gradation}а ");
             switch (preLastDigit)
             {
                 case 1:
-                    sb.Append($" {fstPostFix} ");
+                    sb.Append($" {gradation}а ");
                     break;
                 case 2:
                 case 3:
                 case 4:
-                    if(time > 20) sb.Append($" {secPostFix} ");
-                    else sb.Append($" {thrdPostFix} ");                    
+                    if(time > 20) sb.Append($" {gradation}ы ");
+                    else sb.Append($" {gradation} ");                    
                     break;
                 default:
-                    sb.Append($" {thrdPostFix} ");
+                    sb.Append($" {gradation} ");
                     break;
             }
         }
