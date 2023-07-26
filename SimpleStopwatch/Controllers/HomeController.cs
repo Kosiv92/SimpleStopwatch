@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimpleStopwatch.Models;
 using System.Diagnostics;
+using System.Text;
 
 namespace SimpleStopwatch.Controllers
 {
@@ -15,7 +16,7 @@ namespace SimpleStopwatch.Controllers
 
         [HttpGet]
         public IActionResult Index()
-        {                         
+        {
             return View();
         }
 
@@ -29,10 +30,48 @@ namespace SimpleStopwatch.Controllers
 
             TimeSpan interval = TimeSpan.FromMilliseconds(model.Milliseconds);
 
-            model.TimeToPrint = $"h={interval.Hours}, m={interval.Minutes}, s={interval.Seconds}, ms={interval.Milliseconds}";
+            StringBuilder stringBuilder = new StringBuilder();
+
+            if (interval.Minutes != 0)
+            {
+                AddTimeGradation(stringBuilder, interval.Minutes, "минута", "минуты", "минут");
+            }
+            if (interval.Seconds != 0)
+            {
+                AddTimeGradation(stringBuilder, interval.Seconds, "секунда", "секунды", "секунд");
+            }
+            if (interval.Milliseconds != 0)
+            {
+                AddTimeGradation(stringBuilder, interval.Milliseconds, "миллисекунда", "миллисекунды", "миллисекунд");
+            }
+
+            model.TimeToPrint = stringBuilder.ToString();
 
             return View(model);
         }
+
+        private void AddTimeGradation(StringBuilder sb, int time,
+            string fstPostFix, string  secPostFix, string thrdPostFix)
+        {
+            sb.Append(time.ToString());
+            int preLastDigit = time % 10;
+            switch (preLastDigit)
+            {
+                case 1:
+                    sb.Append($" {fstPostFix} ");
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    if(time > 20) sb.Append($" {secPostFix} ");
+                    else sb.Append($" {thrdPostFix} ");                    
+                    break;
+                default:
+                    sb.Append($" {thrdPostFix} ");
+                    break;
+            }
+        }
+
 
         public IActionResult Privacy()
         {

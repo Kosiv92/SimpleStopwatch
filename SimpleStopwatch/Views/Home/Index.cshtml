@@ -2,20 +2,19 @@
 
 <div class="text-center">
         
-    <h2 id="datetime"></h2>    
+    <h3 class="m-md-2" id="datetime"></h3>    
         <form asp-action="Index" method="post">
         <input asp-for=@Model.Milliseconds hidden id="sentTime" />
-        <button id="start" type="button">Старт</button>
-        <button id="stop" type="button" hidden>Стоп</button>
-        <button id="reset" type="submit" hidden>Сброс</button>
-        <h2 id="display">00:00:00</h2>
+        <button class="btn btn-success" id="start" type="button">Старт</button>
+        <button id="stop" class="btn btn-danger" type="button" hidden>Стоп</button>
+        <button id="reset" class="btn btn-secondary" type="submit" hidden>Сброс</button>
+        <h3 class="mt-2" id="display">00:00:00</h3>
         </form>    
     @if(Model?.TimeToPrint != null)
     {
         <p><u>Время выполнения</u></p>
         <p>@Model.TimeToPrint</p>
     }
-
-    
+       
     
 </div>
