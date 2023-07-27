@@ -53,23 +53,26 @@ namespace SimpleStopwatch.Controllers
         private void AddTimeGradation(StringBuilder sb, int time, string gradation)
         {
             sb.Append(time.ToString());
-            int preLastDigit = time % 10;
-            if(time>9 && time < 21) sb.Append($" {gradation}а ");
-            switch (preLastDigit)
+            int prepreLastDigit = time % 100;
+            if (prepreLastDigit > 9 && prepreLastDigit < 21) sb.Append($" {gradation} ");
+            else
             {
-                case 1:
-                    sb.Append($" {gradation}а ");
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    if(time > 20) sb.Append($" {gradation}ы ");
-                    else sb.Append($" {gradation} ");                    
-                    break;
-                default:
-                    sb.Append($" {gradation} ");
-                    break;
-            }
+                int preLastDigit = time % 10;
+                switch (preLastDigit)
+                {
+                    case 1:
+                        sb.Append($" {gradation}а ");
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        sb.Append($" {gradation}ы ");                        
+                        break;
+                    default:
+                        sb.Append($" {gradation} ");
+                        break;
+                }
+            }                        
         }
 
 
